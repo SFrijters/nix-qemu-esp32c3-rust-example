@@ -19,7 +19,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, qemu-espressif, rust-overlay }:
+  outputs = { nixpkgs, flake-utils, qemu-espressif, rust-overlay, ... }:
     flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
       let
         inherit (nixpkgs) lib;
@@ -80,9 +80,9 @@
           ];
           text = ''
             # Some sanity checks
-            file -b "${self.packages.${system}.default}/bin/${name}" | grep "ELF 32-bit LSB executable.*UCB RISC-V.*soft-float ABI.*statically linked"
+            file -b "${elf-binary}/bin/${name}" | grep "ELF 32-bit LSB executable.*UCB RISC-V.*soft-float ABI.*statically linked"
             # Create an image for qemu
-            espflash save-image --chip esp32c3 --merge --format esp-bootloader ${self.packages.${system}.default}/bin/${name} ${name}.bin
+            espflash save-image --chip esp32c3 --merge --format esp-bootloader ${elf-binary}/bin/${name} ${name}.bin
             # Start qemu in the background, open a tcp port to interact with it
             qemu-system-riscv32 -nographic -monitor tcp:127.0.0.1:55555,server,nowait -icount 3 -machine esp32c3 -drive file=${name}.bin,if=mtd,format=raw -serial file:qemu-blinky.log &
             # Wait a bit
@@ -103,7 +103,7 @@
             pkgs.cargo-espflash
           ];
           text = ''
-            espflash --monitor ${self.packages.${system}.default}/bin/${name}
+            espflash --monitor ${elf-binary}/bin/${name}
           '';
         };
 
