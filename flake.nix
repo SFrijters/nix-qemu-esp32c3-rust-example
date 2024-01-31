@@ -1,5 +1,5 @@
 {
-  description = "Example flake for running Rust code for ESP32C3 on a qemu emulator";
+  description = "Running Rust code for ESP32C3 on a QEMU emulator";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
@@ -20,6 +20,7 @@
   };
 
   outputs = { nixpkgs, flake-utils, qemu-espressif, rust-overlay, ... }:
+    # Maybe other systems work as well, but they have not been tested
     flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
       let
         inherit (nixpkgs) lib;
