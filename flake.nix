@@ -71,7 +71,7 @@
         name = builtins.head (lib.strings.splitString "-" elf-binary.name);
 
         emulate-script = pkgs.writeShellApplication {
-          name = builtins.trace name "emulate-${name}";
+          name = "emulate-${name}";
           runtimeInputs = [
             pkgs.cargo-espflash
             pkgs.netcat
