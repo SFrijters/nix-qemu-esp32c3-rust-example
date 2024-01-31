@@ -1,20 +1,14 @@
 {
   description = "Running Rust code for ESP32C3 on a QEMU emulator";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs";
-    flake-utils.url = "github:numtide/flake-utils";
-    qemu-espressif = {
-      url = "github:SFrijters/nix-qemu-espressif";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
-      };
-    };
+    qemu-espressif.url = "github:SFrijters/nix-qemu-espressif";
+    flake-utils.follows = "qemu-espressif/flake-utils";
+    nixpkgs.follows = "qemu-espressif/nixpkgs";
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
+        nixpkgs.follows = "qemu-espressif/nixpkgs";
+        flake-utils.follows = "qemu-espressif/flake-utils";
       };
     };
   };
