@@ -98,7 +98,7 @@
             pkgs.cargo-espflash
           ];
           text = ''
-            espflash --monitor ${elf-binary}/bin/${name}
+            espflash flash --monitor ${elf-binary}/bin/${name}
           '';
         };
 
