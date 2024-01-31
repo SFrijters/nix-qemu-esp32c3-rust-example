@@ -1,0 +1,4 @@
+[toolchain]
+channel = "nightly-2024-01-24"  # Changing channel to 1.75.0: `unresolved import `std::sync::atomic::AtomicUsize`
+components = ["rust-src"]
+targets = ["riscv32imc-unknown-none-elf"]
