@@ -15,7 +15,7 @@
 
   outputs = { nixpkgs, flake-utils, qemu-espressif, rust-overlay, ... }:
     # Maybe other systems work as well, but they have not been tested
-    flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
+    flake-utils.lib.eachSystem [ "x86_64-linux" "aarch64-linux" ] (system:
       let
         inherit (nixpkgs) lib;
 
