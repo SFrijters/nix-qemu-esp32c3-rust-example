@@ -61,9 +61,7 @@
           inherit rustPlatform;
         };
 
-        # elf-binary.name contains the system etc, e.g. "blinky-x86_64-unknown-linux-gnu"
-        # Also: this is not "riscv" because we don't set system that way in pkgsCross
-        name = builtins.head (lib.strings.splitString "-" elf-binary.name);
+        inherit (elf-binary.meta) name;
 
         emulate-script = pkgs.writeShellApplication {
           name = "emulate-${name}";
