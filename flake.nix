@@ -58,6 +58,7 @@
             pkgs.cargo-espflash
             pkgs.netcat
             pkgs.gnugrep
+            pkgs.esptool
             qemu-esp32c3
           ];
           text = ''
@@ -65,6 +66,8 @@
             file -b "${elf-binary}/bin/${name}" | grep "ELF 32-bit LSB executable.*UCB RISC-V.*soft-float ABI.*statically linked"
             # Create an image for qemu
             espflash save-image --chip esp32c3 --merge --format esp-bootloader ${elf-binary}/bin/${name} ${name}.bin
+            # Get stats
+            esptool.py image_info --version 2 ${name}.bin
             # Start qemu in the background, open a tcp port to interact with it
             qemu-system-riscv32 -nographic -monitor tcp:127.0.0.1:55555,server,nowait -icount 3 -machine esp32c3 -drive file=${name}.bin,if=mtd,format=raw -serial file:qemu-${name}.log &
             # Wait a bit
@@ -120,6 +123,7 @@
             buildInputs = [
               pkgs.cargo-espflash
               pkgs.cargo-generate
+              pkgs.esptool
               qemu-esp32c3
               toolchain
             ];
