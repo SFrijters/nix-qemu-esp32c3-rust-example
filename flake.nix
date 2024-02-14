@@ -56,9 +56,9 @@
           name = "emulate-${name}";
           runtimeInputs = [
             pkgs.cargo-espflash
-            pkgs.netcat
-            pkgs.gnugrep
             pkgs.esptool
+            pkgs.gnugrep
+            pkgs.netcat
             qemu-esp32c3
           ];
           text = ''
@@ -121,9 +121,11 @@
               echo "    Using espflash version $(espflash --version)"
             '';
             buildInputs = [
-              pkgs.cargo-espflash
               pkgs.cargo-generate
+              pkgs.cargo-espflash
               pkgs.esptool
+              pkgs.gnugrep
+              pkgs.netcat
               qemu-esp32c3
               toolchain
             ];
