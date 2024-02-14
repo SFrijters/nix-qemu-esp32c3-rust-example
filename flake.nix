@@ -19,25 +19,14 @@
       let
         inherit (nixpkgs) lib;
 
-        nixpkgs-patched = (import nixpkgs { inherit system; }).applyPatches {
-          name = "nixpkgs-cargo-linker-workaround";
-          src = nixpkgs;
-          # Work around https://github.com/NixOS/nixpkgs/issues/281527 by forcing LLD as the linker:
-          #   >   = note: x86_64-unknown-linux-gnu-gcc: error: unrecognized command-line option '-flavor'
-          #   >           x86_64-unknown-linux-gnu-gcc: error: unrecognized command-line option '--as-needed'; did you mean '-mno-needed'?
-          #   >           x86_64-unknown-linux-gnu-gcc: error: unrecognized command-line option '--gc-sections'; did you mean '--data-sections'?
-          #   >
-          patches = [ ./nixpkgs-cargo-linker-workaround.patch ];
-        };
-
-        pkgs = import nixpkgs-patched {
+        pkgs = import nixpkgs {
           inherit system;
           overlays = [
             (import rust-overlay)
           ];
         };
 
-        pkgsCross = import nixpkgs-patched {
+        pkgsCross = import nixpkgs {
           inherit system;
           crossSystem = {
             # We do not set system to something riscv related, which is kinda weird
@@ -58,7 +47,7 @@
         qemu-esp32c3 = qemu-espressif.packages.${system}.qemu-esp32c3;
 
         elf-binary = pkgs.callPackage ./blinky {
-          inherit rustPlatform;
+          inherit rustPlatform pkgsCross;
         };
 
         inherit (elf-binary.meta) name;
