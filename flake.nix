@@ -66,16 +66,16 @@
             # Create an image for qemu
             espflash save-image --chip esp32c3 --merge --format esp-bootloader ${elf-binary}/bin/${name} ${name}.bin
             # Start qemu in the background, open a tcp port to interact with it
-            qemu-system-riscv32 -nographic -monitor tcp:127.0.0.1:55555,server,nowait -icount 3 -machine esp32c3 -drive file=${name}.bin,if=mtd,format=raw -serial file:qemu-blinky.log &
+            qemu-system-riscv32 -nographic -monitor tcp:127.0.0.1:55555,server,nowait -icount 3 -machine esp32c3 -drive file=${name}.bin,if=mtd,format=raw -serial file:qemu-${name}.log &
             # Wait a bit
             sleep 3s
             # Kill qemu nicely by sending 'q' (quit) over tcp
             echo q | nc -N 127.0.0.1 55555
-            cat qemu-blinky.log
+            cat qemu-${name}.log
             # Sanity check
-            grep "ESP-ROM:esp32c3-api1-20210207" qemu-blinky.log
+            grep "ESP-ROM:esp32c3-api1-20210207" qemu-${name}.log
             # Did we get the expected output?
-            grep "Hello world" qemu-blinky.log
+            grep "Hello world" qemu-${name}.log
           '';
         };
 
@@ -106,7 +106,7 @@
             '';
             installPhase = ''
               mkdir "$out"
-              cp qemu-blinky.log "$out"
+              cp qemu-${name}.log "$out"
             '';
           };
 
