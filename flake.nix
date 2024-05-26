@@ -65,7 +65,7 @@
             # Some sanity checks
             file -b "${elf-binary}/bin/${name}" | grep "ELF 32-bit LSB executable.*UCB RISC-V.*soft-float ABI.*statically linked"
             # Create an image for qemu
-            espflash save-image --chip esp32c3 --merge --format esp-bootloader ${elf-binary}/bin/${name} ${name}.bin
+            espflash save-image --chip esp32c3 --merge ${elf-binary}/bin/${name} ${name}.bin
             # Get stats
             esptool.py image_info --version 2 ${name}.bin
             # Start qemu in the background, open a tcp port to interact with it
