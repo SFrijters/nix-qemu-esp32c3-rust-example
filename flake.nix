@@ -55,7 +55,7 @@
         emulate-script = pkgs.writeShellApplication {
           name = "emulate-${name}";
           runtimeInputs = [
-            pkgs.cargo-espflash
+            pkgs.espflash
             pkgs.esptool
             pkgs.gnugrep
             pkgs.netcat
@@ -85,7 +85,7 @@
         flash-script = pkgs.writeShellApplication {
           name = "flash-${name}";
           runtimeInputs = [
-            pkgs.cargo-espflash
+            pkgs.espflash
           ];
           text = ''
             espflash flash --monitor ${elf-binary}/bin/${name}
@@ -115,20 +115,22 @@
 
           devShells.default = pkgs.mkShell {
             name = "${name}-dev";
-            shellHook = ''
-              echo "==> Using cargo version $(cargo --version)"
-              echo "    Using rustc version $(rustc --version)"
-              echo "    Using espflash version $(espflash --version)"
-            '';
-            buildInputs = [
+
+            packages = [
               pkgs.cargo-generate
-              pkgs.cargo-espflash
+              pkgs.espflash
               pkgs.esptool
               pkgs.gnugrep
               pkgs.netcat
               qemu-esp32c3
               toolchain
             ];
+
+            shellHook = ''
+              echo "==> Using cargo version $(cargo --version)"
+              echo "    Using rustc version $(rustc --version)"
+              echo "    Using espflash version $(espflash --version)"
+            '';
           };
 
           apps = {
