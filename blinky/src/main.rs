@@ -2,7 +2,7 @@
 
 //! Blinks an LED
 //!
-//! This assumes that a LED is connected to the pin assigned to `led`. (GPIO0)
+//! This assumes that a LED is connected to the pin assigned to `led`. (GPIO10)
 
 //% CHIPS: esp32 esp32c2 esp32c3 esp32c6 esp32h2 esp32s2 esp32s3
 
@@ -25,9 +25,9 @@ fn main() -> ! {
     let system = SystemControl::new(peripherals.SYSTEM);
     let clocks = ClockControl::boot_defaults(system.clock_control).freeze();
 
-    // Set GPIO0 as an output, and set its state high initially.
+    // Set GPIO10 as an output, and set its state high initially.
     let io = Io::new(peripherals.GPIO, peripherals.IO_MUX);
-    let mut led = Output::new(io.pins.gpio0, Level::High);
+    let mut led = Output::new(io.pins.gpio10, Level::High);
 
     let delay = Delay::new(&clocks);
 
