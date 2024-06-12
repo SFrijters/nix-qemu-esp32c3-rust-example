@@ -10,6 +10,7 @@
 #![no_main]
 
 use esp_backtrace as _;
+use esp_println::println;
 use esp_hal::{
     clock::ClockControl,
     delay::Delay,
@@ -24,6 +25,8 @@ fn main() -> ! {
     let peripherals = Peripherals::take();
     let system = SystemControl::new(peripherals.SYSTEM);
     let clocks = ClockControl::boot_defaults(system.clock_control).freeze();
+
+    println!("Hello world!");
 
     // Set GPIO10 as an output, and set its state high initially.
     let io = Io::new(peripherals.GPIO, peripherals.IO_MUX);
