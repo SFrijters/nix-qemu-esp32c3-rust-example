@@ -6,7 +6,7 @@ This is an example / test for https://github.com/SFrijters/nix-qemu-espressif; i
 
 ## Usage
 
-As an example we compile a simple 'blinking LED' Rust code based on [no_std-training](https://github.com/esp-rs/no_std-training/tree/main/intro/blinky) for an ESP32C3 chip and run it on QEMU:
+As an example we compile a simple 'blinking LED' Rust code based on [an example in esp-hal](https://github.com/esp-rs/esp-hal/blob/v0.18.0/examples/src/bin/blinky.rs) for an ESP32C3 chip and run it on QEMU:
 
 * `nix flake check -L`
 
@@ -23,7 +23,7 @@ And a development shell via:
 
 ## Physical test
 
-The code has been tested on a [Seeed Studio XIAO ESP32C3](https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/). The GPIO7 pin corresponds to the D5 pin as marked on the board.
+The code has been tested on a [Seeed Studio XIAO ESP32C3](https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/). The GPIO10 pin corresponds to the D10 pin as marked on the board.
 
 ## Further reading
 
