@@ -31,7 +31,7 @@
           crossSystem = {
             # We do not set system to something riscv related, which is kinda weird
             inherit system;
-            rustc.config = "riscv32imc-unknown-none-elf";
+            rust.rustcTarget = "riscv32imc-unknown-none-elf";
           };
         };
 
