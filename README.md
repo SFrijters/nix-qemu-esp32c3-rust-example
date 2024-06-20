@@ -25,6 +25,10 @@ And a development shell via:
 
 The code has been tested on a [Seeed Studio XIAO ESP32C3](https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/). The GPIO10 pin corresponds to the D10 pin as marked on the board.
 
+## Known issues
+
+This example code works around [a linker issue in nixpkgs](https://github.com/NixOS/nixpkgs/issues/281527) in [blinky/default.nix](blinky/default.nix). Please refer to the linked issue for details and please suggest a better/permanent fix if you know of one!
+
 ## Further reading
 
 * https://github.com/espressif/qemu
