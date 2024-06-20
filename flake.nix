@@ -99,19 +99,11 @@
             default = elf-binary;
           };
 
-          checks.default = pkgs.stdenvNoCC.mkDerivation {
-            name = "qemu-check-${name}";
-            dontUnpack = true;
-            dontBuild = true;
-            doCheck = true;
-            checkPhase = ''
-              ${lib.getExe emulate-script}
-            '';
-            installPhase = ''
-              mkdir "$out"
-              cp qemu-${name}.log "$out"
-            '';
-          };
+          checks.default = pkgs.runCommand "qemu-check-${name}" {} ''
+            ${lib.getExe emulate-script}
+            mkdir "$out"
+            cp qemu-${name}.log "$out"
+          '';
 
           devShells.default = pkgs.mkShell {
             name = "${name}-dev";
