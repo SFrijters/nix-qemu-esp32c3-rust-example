@@ -117,7 +117,6 @@
             name = "${name}-dev";
 
             packages = [
-              pkgs.cargo-generate
               pkgs.espflash
               pkgs.esptool
               pkgs.gnugrep
@@ -127,7 +126,8 @@
             ];
 
             shellHook = ''
-              echo "==> Using cargo version $(cargo --version)"
+              echo "==> Using toolchain version ${toolchain.version}"
+              echo "    Using cargo version $(cargo --version)"
               echo "    Using rustc version $(rustc --version)"
               echo "    Using espflash version $(espflash --version)"
             '';
