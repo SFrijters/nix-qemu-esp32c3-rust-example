@@ -29,5 +29,6 @@ The code has been tested on a [Seeed Studio XIAO ESP32C3](https://wiki.seeedstud
 
 * https://github.com/espressif/qemu
 * https://github.com/espressif/esp-toolchain-docs/blob/main/qemu/esp32c3/README.md
+* https://github.com/esp-rs/esp-hal/
 * https://github.com/esp-rs/no_std-training/
 * https://n8henrie.com/2023/09/compiling-rust-for-the-esp32-with-nix/
