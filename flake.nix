@@ -101,7 +101,7 @@
 
           checks.default = pkgs.stdenvNoCC.mkDerivation {
             name = "qemu-check-${name}";
-            src = ./.;
+            dontUnpack = true;
             dontBuild = true;
             doCheck = true;
             checkPhase = ''
