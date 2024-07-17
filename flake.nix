@@ -141,6 +141,8 @@
               program = "${lib.getExe flash-script}";
             };
           };
+
+          formatter = pkgs.nixfmt-rfc-style;
         }
     );
 }
