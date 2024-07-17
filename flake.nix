@@ -13,93 +13,98 @@
     };
   };
 
-  outputs = { nixpkgs, flake-utils, qemu-espressif, rust-overlay, ... }:
+  outputs =
+    {
+      nixpkgs,
+      flake-utils,
+      qemu-espressif,
+      rust-overlay,
+      ...
+    }:
     # Maybe other systems work as well, but they have not been tested
-    flake-utils.lib.eachSystem [ "x86_64-linux" "aarch64-linux" ] (system:
-      let
-        inherit (nixpkgs) lib;
+    flake-utils.lib.eachSystem
+      [
+        "x86_64-linux"
+        "aarch64-linux"
+      ]
+      (
+        system:
+        let
+          inherit (nixpkgs) lib;
 
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [
-            (import rust-overlay)
-          ];
-        };
-
-        pkgsCross = import nixpkgs {
-          inherit system;
-          crossSystem = {
-            # We do not set system to something riscv related, which is kinda weird
+          pkgs = import nixpkgs {
             inherit system;
-            rust.rustcTarget = "riscv32imc-unknown-none-elf";
+            overlays = [ (import rust-overlay) ];
           };
-        };
 
-        toolchain = (
-          pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml
-        );
+          pkgsCross = import nixpkgs {
+            inherit system;
+            crossSystem = {
+              # We do not set system to something riscv related, which is kinda weird
+              inherit system;
+              rust.rustcTarget = "riscv32imc-unknown-none-elf";
+            };
+          };
 
-        rustPlatform = pkgsCross.makeRustPlatform {
-          rustc = toolchain;
-          cargo = toolchain;
-        };
+          toolchain = (pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml);
 
-        qemu-esp32c3 = qemu-espressif.packages.${system}.qemu-esp32c3;
+          rustPlatform = pkgsCross.makeRustPlatform {
+            rustc = toolchain;
+            cargo = toolchain;
+          };
 
-        elf-binary = pkgs.callPackage ./blinky {
-          inherit rustPlatform pkgsCross;
-        };
+          qemu-esp32c3 = qemu-espressif.packages.${system}.qemu-esp32c3;
 
-        inherit (elf-binary.meta) name;
+          elf-binary = pkgs.callPackage ./blinky { inherit rustPlatform pkgsCross; };
 
-        emulate-script = pkgs.writeShellApplication {
-          name = "emulate-${name}";
-          runtimeInputs = [
-            pkgs.espflash
-            pkgs.esptool
-            pkgs.gnugrep
-            pkgs.netcat
-            qemu-esp32c3
-          ];
-          text = ''
-            # Some sanity checks
-            file -b "${elf-binary}/bin/${name}" | grep "ELF 32-bit LSB executable.*UCB RISC-V.*soft-float ABI.*statically linked"
-            # Create an image for qemu
-            espflash save-image --chip esp32c3 --merge ${elf-binary}/bin/${name} ${name}.bin
-            # Get stats
-            esptool.py image_info --version 2 ${name}.bin
-            # Start qemu in the background, open a tcp port to interact with it
-            qemu-system-riscv32 -nographic -monitor tcp:127.0.0.1:55555,server,nowait -icount 3 -machine esp32c3 -drive file=${name}.bin,if=mtd,format=raw -serial file:qemu-${name}.log &
-            # Wait a bit
-            sleep 3s
-            # Kill qemu nicely by sending 'q' (quit) over tcp
-            echo q | nc -N 127.0.0.1 55555
-            cat qemu-${name}.log
-            # Sanity check
-            grep "ESP-ROM:esp32c3-api1-20210207" qemu-${name}.log
-            # Did we get the expected output?
-            grep "Hello world" qemu-${name}.log
-          '';
-        };
+          inherit (elf-binary.meta) name;
 
-        flash-script = pkgs.writeShellApplication {
-          name = "flash-${name}";
-          runtimeInputs = [
-            pkgs.espflash
-          ];
-          text = ''
-            espflash flash --monitor ${elf-binary}/bin/${name}
-          '';
-        };
+          emulate-script = pkgs.writeShellApplication {
+            name = "emulate-${name}";
+            runtimeInputs = [
+              pkgs.espflash
+              pkgs.esptool
+              pkgs.gnugrep
+              pkgs.netcat
+              qemu-esp32c3
+            ];
+            text = ''
+              # Some sanity checks
+              file -b "${elf-binary}/bin/${name}" | grep "ELF 32-bit LSB executable.*UCB RISC-V.*soft-float ABI.*statically linked"
+              # Create an image for qemu
+              espflash save-image --chip esp32c3 --merge ${elf-binary}/bin/${name} ${name}.bin
+              # Get stats
+              esptool.py image_info --version 2 ${name}.bin
+              # Start qemu in the background, open a tcp port to interact with it
+              qemu-system-riscv32 -nographic -monitor tcp:127.0.0.1:55555,server,nowait -icount 3 -machine esp32c3 -drive file=${name}.bin,if=mtd,format=raw -serial file:qemu-${name}.log &
+              # Wait a bit
+              sleep 3s
+              # Kill qemu nicely by sending 'q' (quit) over tcp
+              echo q | nc -N 127.0.0.1 55555
+              cat qemu-${name}.log
+              # Sanity check
+              grep "ESP-ROM:esp32c3-api1-20210207" qemu-${name}.log
+              # Did we get the expected output?
+              grep "Hello world" qemu-${name}.log
+            '';
+          };
 
-      in
+          flash-script = pkgs.writeShellApplication {
+            name = "flash-${name}";
+            runtimeInputs = [ pkgs.espflash ];
+            text = ''
+              espflash flash --monitor ${elf-binary}/bin/${name}
+            '';
+          };
+
+        in
         {
           packages = {
             inherit elf-binary flash-script emulate-script;
             default = elf-binary;
           };
 
-          checks.default = pkgs.runCommand "qemu-check-${name}" {} ''
+          checks.default = pkgs.runCommand "qemu-check-${name}" { } ''
             ${lib.getExe emulate-script}
             mkdir "$out"
             cp qemu-${name}.log "$out"
@@ -144,5 +149,5 @@
 
           formatter = pkgs.nixfmt-rfc-style;
         }
-    );
+      );
 }

@@ -1,6 +1,7 @@
-{ lib
-, rustPlatform
-, pkgsCross
+{
+  lib,
+  rustPlatform,
+  pkgsCross,
 }:
 
 rustPlatform.buildRustPackage {
