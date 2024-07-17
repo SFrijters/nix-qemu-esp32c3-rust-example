@@ -6,10 +6,19 @@
 
 rustPlatform.buildRustPackage {
   inherit ((builtins.fromTOML (builtins.readFile ./Cargo.toml)).package) name;
-  src = lib.cleanSource ./.;
-  cargoLock = {
-    lockFile = ./Cargo.lock;
+
+  src = lib.fileset.toSource {
+    root = ./.;
+    fileset = lib.fileset.unions [
+      ./Cargo.lock
+      ./Cargo.toml
+      ./src
+      ./.cargo
+    ];
   };
+
+  cargoLock.lockFile = ./Cargo.lock;
+
   doCheck = false;
 
   # Work around https://github.com/NixOS/nixpkgs/issues/281527 by forcing LLD as the linker:
