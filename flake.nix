@@ -6,10 +6,7 @@
     nixpkgs.follows = "qemu-espressif/nixpkgs";
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
-      inputs = {
-        nixpkgs.follows = "qemu-espressif/nixpkgs";
-        flake-utils.follows = "qemu-espressif/flake-utils";
-      };
+      inputs.nixpkgs.follows = "qemu-espressif/nixpkgs";
     };
   };
 
