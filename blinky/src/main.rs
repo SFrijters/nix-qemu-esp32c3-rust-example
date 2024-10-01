@@ -1,8 +1,9 @@
-// https://github.com/esp-rs/esp-hal/blob/main/examples/src/bin/blinky.rs
+// Based on https://github.com/esp-rs/esp-hal/blob/v0.20.1/examples/src/bin/blinky.rs
 
 //! Blinks an LED
 //!
-//! This assumes that a LED is connected to the pin assigned to `led`. (GPIO10)
+//! The following wiring is assumed:
+//! - LED => GPIO10
 
 //% CHIPS: esp32 esp32c2 esp32c3 esp32c6 esp32h2 esp32s2 esp32s3
 
