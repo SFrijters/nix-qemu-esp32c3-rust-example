@@ -1,6 +1,6 @@
 # nix-qemu-esp32c3-rust-example
 
-[![nix flake check](https://github.com/SFrijters/nix-qemu-esp32c3-rust-example/actions/workflows/qemu-check-blinky.yml/badge.svg)](https://github.com/SFrijters/nix-qemu-esp32c3-rust-example/actions/workflows/qemu-check-blinky.yml)
+[![nix flake check](https://github.com/SFrijters/nix-qemu-esp32c3-rust-example/actions/workflows/nix-flake-check.yml/badge.svg)](https://github.com/SFrijters/nix-qemu-esp32c3-rust-example/actions/workflows/nix-flake-check.yml)
 
 This is an example / test for https://github.com/SFrijters/nix-qemu-espressif; it is kept out of that repository to keep it as lean as possible.
 
