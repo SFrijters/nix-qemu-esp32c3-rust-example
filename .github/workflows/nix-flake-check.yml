@@ -26,6 +26,10 @@ jobs:
       run: |
         nix flake check -L
 
+    - name: Cargo build
+      run: |
+        nix develop --command bash -c 'cd blinky && cargo build --release'
+
     - name: Formatter check
       run: |
         nix fmt
