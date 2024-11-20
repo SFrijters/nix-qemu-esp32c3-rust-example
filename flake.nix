@@ -98,7 +98,7 @@
         {
           packages = {
             inherit elf-binary flash-script emulate-script;
-            default = elf-binary;
+            default = emulate-script;
           };
 
           checks.default = pkgs.runCommand "qemu-check-${name}" { } ''
