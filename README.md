@@ -21,6 +21,19 @@ And a development shell via:
 
 * `nix develop`
 
+Inside the development shell, we can also use `cargo` directly to build the binary:
+
+```console
+$ nix develop
+$ cd blinky && cargo build --release
+```
+
+Finally, there are three package outputs:
+
+* `nix build .#elf-binary` builds only the ELF binary file.
+* `nix build .#emulate-script` (default package) builds a script to run the emulation test.
+* `nix build .#flash-script` builds a wrapper script to flash the binary to a physical device using `espflash`.
+
 ## Physical test
 
 The code has been tested on a [Seeed Studio XIAO ESP32C3](https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/). The GPIO10 pin corresponds to the D10 pin as marked on the board.

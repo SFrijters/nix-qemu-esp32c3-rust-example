@@ -37,7 +37,7 @@
           pkgsCross = import nixpkgs {
             inherit system;
             crossSystem = {
-              # We do not set system to something riscv related, which is kinda weird
+              # https://github.com/NixOS/nixpkgs/issues/281527#issuecomment-2180971963
               inherit system;
               rust.rustcTarget = "riscv32imc-unknown-none-elf";
             };
