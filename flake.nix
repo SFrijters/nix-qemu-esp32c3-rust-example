@@ -52,7 +52,7 @@
 
           qemu-esp32c3 = qemu-espressif.packages.${system}.qemu-esp32c3;
 
-          elf-binary = pkgs.callPackage ./blinky { inherit rustPlatform pkgsCross; };
+          elf-binary = pkgs.callPackage ./blinky { inherit rustPlatform; };
 
           inherit (elf-binary.meta) name;
 
