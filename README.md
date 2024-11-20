@@ -40,7 +40,7 @@ The code has been tested on a [Seeed Studio XIAO ESP32C3](https://wiki.seeedstud
 
 ## Known issues
 
-This example code works around [a linker issue in nixpkgs](https://github.com/NixOS/nixpkgs/issues/281527) in [blinky/default.nix](blinky/default.nix). Please refer to the linked issue for details and please suggest a better/permanent fix if you know of one!
+This example code works around [a linker issue in nixpkgs](https://github.com/NixOS/nixpkgs/issues/281527) in [blinky/.cargo/config.toml](blinky/.cargo/config.toml). Please refer to the linked issue for details and please suggest a better/permanent fix if you know of one!
 
 ## Further reading
 
