@@ -35,15 +35,14 @@
     },
     "qemu-espressif": {
       "inputs": {
-        "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1731951808,
-        "narHash": "sha256-TTbpcFa5bIyp2pl8sBGkV8ibFdEOgpEllg/Ajd2NrrQ=",
+        "lastModified": 1732284674,
+        "narHash": "sha256-4aYVWYZt4p8WzHdC6+S361U4/1r/zHTtdD4bw76TZg4=",
         "owner": "SFrijters",
         "repo": "nix-qemu-espressif",
-        "rev": "66658290105adaf1bf00f5e143e539beb578792e",
+        "rev": "7ef3d01e67475f435b09350011cd5fe325f708a0",
         "type": "github"
       },
       "original": {
@@ -54,10 +53,7 @@
     },
     "root": {
       "inputs": {
-        "flake-utils": [
-          "qemu-espressif",
-          "flake-utils"
-        ],
+        "flake-utils": "flake-utils",
         "nixpkgs": [
           "qemu-espressif",
           "nixpkgs"
@@ -74,11 +70,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1731897198,
-        "narHash": "sha256-Ou7vLETSKwmE/HRQz4cImXXJBr/k9gp4J4z/PF8LzTE=",
+        "lastModified": 1732242723,
+        "narHash": "sha256-NWI8csIK0ujFlFuEXKnoc+7hWoCiEtINK9r48LUUMeU=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "0be641045af6d8666c11c2c40e45ffc9667839b5",
+        "rev": "a229311fcb45b88a95fdfa5cecd8349c809a272a",
         "type": "github"
       },
       "original": {

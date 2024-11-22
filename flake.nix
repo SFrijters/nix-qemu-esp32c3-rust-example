@@ -2,7 +2,7 @@
   description = "Running Rust code for ESP32C3 on a QEMU emulator";
   inputs = {
     qemu-espressif.url = "github:SFrijters/nix-qemu-espressif";
-    flake-utils.follows = "qemu-espressif/flake-utils";
+    flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.follows = "qemu-espressif/nixpkgs";
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
