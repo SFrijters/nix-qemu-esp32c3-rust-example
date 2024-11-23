@@ -23,6 +23,8 @@
       [
         "x86_64-linux"
         "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
       ]
       (
         system:
@@ -73,11 +75,11 @@
               # Get stats
               esptool.py image_info --version 2 ${name}.bin
               # Start qemu in the background, open a tcp port to interact with it
-              qemu-system-riscv32 -nographic -monitor tcp:127.0.0.1:55555,server,nowait -icount 3 -machine esp32c3 -drive file=${name}.bin,if=mtd,format=raw -serial file:qemu-${name}.log &
+              qemu-system-riscv32 -nographic -monitor tcp:127.0.0.1:44444,server,nowait -icount 3 -machine esp32c3 -drive file=${name}.bin,if=mtd,format=raw -serial file:qemu-${name}.log &
               # Wait a bit
               sleep 3s
               # Kill qemu nicely by sending 'q' (quit) over tcp
-              echo q | nc -N 127.0.0.1 55555
+              echo q | nc -N 127.0.0.1 44444
               cat qemu-${name}.log
               # Sanity check
               grep "ESP-ROM:esp32c3-api1-20210207" qemu-${name}.log
