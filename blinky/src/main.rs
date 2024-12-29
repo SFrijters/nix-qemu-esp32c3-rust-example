@@ -1,4 +1,6 @@
-// Based on https://github.com/esp-rs/esp-hal/blob/v0.21.1/examples/src/bin/blinky.rs
+// Based on https://github.com/esp-rs/esp-hal/blob/fbc57542a8f4b71e30f0dcea4045c508ce753139/examples/src/bin/blinky.rs
+// The example was removed in 0.22.0
+// See: https://github.com/esp-rs/esp-hal/pull/2538
 
 //! Blinks an LED
 //!
@@ -14,7 +16,7 @@ use esp_backtrace as _;
 use esp_println::println;
 use esp_hal::{
     delay::Delay,
-    gpio::{Io, Level, Output},
+    gpio::{Level, Output},
     prelude::*,
 };
 
@@ -25,8 +27,7 @@ fn main() -> ! {
     println!("Hello world!");
 
     // Set GPIO10 as an output, and set its state high initially.
-    let io = Io::new(peripherals.GPIO, peripherals.IO_MUX);
-    let mut led = Output::new(io.pins.gpio10, Level::High);
+    let mut led = Output::new(peripherals.GPIO10, Level::High);
 
     let delay = Delay::new();
 
