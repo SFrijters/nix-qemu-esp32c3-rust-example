@@ -6,7 +6,7 @@ This is an example / test for https://github.com/SFrijters/nix-qemu-espressif; i
 
 ## Usage
 
-As an example we compile a simple 'blinking LED' Rust code based on [an example in esp-hal](https://github.com/esp-rs/esp-hal/blob/v0.21.1/examples/src/bin/blinky.rs) for an ESP32C3 chip and run it on QEMU:
+As an example we compile a simple 'blinking LED' Rust code based on [an example in esp-hal](https://github.com/esp-rs/esp-hal/blob/fbc57542a8f4b71e30f0dcea4045c508ce753139/examples/src/bin/blinky.rs) for an ESP32C3 chip and run it on QEMU:
 
 * `nix flake check -L`
 
