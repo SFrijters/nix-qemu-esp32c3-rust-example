@@ -52,7 +52,7 @@
             cargo = toolchain;
           };
 
-          qemu-esp32c3 = qemu-espressif.packages.${system}.qemu-esp32c3;
+          qemu-esp32c3 = qemu-espressif.packages.${system}.qemu-esp32c3-minimal;
 
           elf-binary = pkgs.callPackage ./blinky { inherit rustPlatform; };
 
