@@ -17,10 +17,11 @@ use esp_println::println;
 use esp_hal::{
     delay::Delay,
     gpio::{Level, Output},
-    prelude::*,
+    main,
+    time::ExtU64,
 };
 
-#[entry]
+#[main]
 fn main() -> ! {
     let peripherals = esp_hal::init(esp_hal::Config::default());
 
@@ -36,6 +37,6 @@ fn main() -> ! {
         delay.delay_millis(500);
         led.toggle();
         // or using `fugit` duration
-        delay.delay(2.secs());
+        delay.delay(1u64.secs());
     }
 }
