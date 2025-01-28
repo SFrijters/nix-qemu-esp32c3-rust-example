@@ -33,7 +33,10 @@
 
           pkgs = import nixpkgs {
             inherit system;
-            overlays = [ (import rust-overlay) ];
+            overlays = [
+              (import rust-overlay)
+              (import qemu-espressif)
+            ];
           };
 
           pkgsCross = import nixpkgs {
@@ -52,8 +55,6 @@
             cargo = toolchain;
           };
 
-          qemu-esp32c3 = qemu-espressif.packages.${system}.qemu-esp32c3-minimal;
-
           elf-binary = pkgs.callPackage ./blinky { inherit rustPlatform; };
 
           inherit (elf-binary.meta) name;
@@ -65,7 +66,7 @@
               pkgs.esptool
               pkgs.gnugrep
               pkgs.netcat
-              qemu-esp32c3
+              pkgs.qemu-esp32c3-minimal
             ];
             text = ''
               # Some sanity checks
@@ -117,7 +118,7 @@
               pkgs.esptool
               pkgs.gnugrep
               pkgs.netcat
-              qemu-esp32c3
+              pkgs.qemu-esp32c3-minimal
               toolchain
             ];
 
