@@ -122,10 +122,10 @@
             ];
 
             shellHook = ''
-              echo "==> Using toolchain version ${toolchain.version}"
-              echo "    Using cargo version $(cargo --version)"
-              echo "    Using rustc version $(rustc --version)"
-              echo "    Using espflash version $(espflash --version)"
+              >&2 echo "==> Using toolchain version ${toolchain.version}"
+              >&2 echo "    Using cargo version $(cargo --version)"
+              >&2 echo "    Using rustc version $(rustc --version)"
+              >&2 echo "    Using espflash version $(espflash --version)"
             '';
           };
 
