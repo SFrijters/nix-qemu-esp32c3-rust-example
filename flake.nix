@@ -66,7 +66,7 @@
               pkgs.esptool
               pkgs.gnugrep
               pkgs.netcat
-              pkgs.qemu-esp32c3-minimal
+              pkgs.qemu-esp32c3
             ];
             text = ''
               # Some sanity checks
@@ -118,7 +118,7 @@
               pkgs.esptool
               pkgs.gnugrep
               pkgs.netcat
-              pkgs.qemu-esp32c3-minimal
+              pkgs.qemu-esp32c3
               toolchain
             ];
 
