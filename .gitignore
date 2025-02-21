@@ -4,3 +4,6 @@
 # Outputs from running the emulation script
 blinky.bin
 qemu-blinky.log
+
+# GC roots
+/gcroots

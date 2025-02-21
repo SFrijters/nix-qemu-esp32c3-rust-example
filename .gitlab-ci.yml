@@ -1,0 +1,55 @@
+stages:
+  - metadata
+  - flake
+  - noflake
+  - lint
+
+variables:
+  GIT_CLEAN_FLAGS: -ffdx -e gcroots/
+
+flake:
+  timeout: 15,
+  tags:
+    - nix
+  stage: metadata
+  script:
+    - nix flake metadata
+    - nix flake show
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "master"
+
+flake:
+  timeout: 1h
+  tags:
+    - nix
+  stage: flake
+  script:
+    - nix flake check -L
+    # Keep GC roots
+    - mkdir -p gcroots
+    - nix build .#elf-binary -o gcroots/elf-binary
+    - nix build .#flash-script -o gcroots/flash-script
+    - nix build .#emulate-script -o gcroots/emulate-script
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "master"
+
+noflake:
+  timeout: 1h
+  tags:
+    - nix
+  stage: noflake
+  script:
+    - nix develop --command bash -c 'cd blinky && cargo build --release'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "master"
+
+nixfmt:
+  timeout: 15m
+  tags:
+    - nix
+  stage: lint
+  script:
+    - cd install ; nix fmt
+    - git diff --exit-code
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "master"
