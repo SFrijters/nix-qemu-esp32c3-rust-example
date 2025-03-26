@@ -1,6 +1,8 @@
 stages:
   - metadata
-  - flake-build
+  - flake-build-elf-binary
+  - flake-build-flash-script
+  - flake-build-emulate-script
   - flake-check
   - cargo-build
   - lint
@@ -8,7 +10,7 @@ stages:
 variables:
   GIT_CLEAN_FLAGS: -ffdx -e gcroots/
 
-flake:
+flake-metadata:
   timeout: 15m
   tags:
     - nix
@@ -19,18 +21,39 @@ flake:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "master"
 
-flake-build:
+flake-build-elf-binary:
   timeout: 1h
   tags:
     - nix
-  stage: flake-build
+  stage: flake-build-elf-binary
   script:
     # Keep GC roots
     - mkdir -p gcroots
-    - nix build .#$PACKAGE -o gcroots/$PACKAGE
-  parallel:
-    matrix:
-      - PACKAGE: [ elf-binary, flash-script, emulate-script ]
+    - nix build .#elf-binary -o gcroots/elf-binary -L
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "master"
+
+flake-build-flash-script:
+  timeout: 15m
+  tags:
+    - nix
+  stage: flake-build-flash-script
+  script:
+    # Keep GC roots
+    - mkdir -p gcroots
+    - nix build .#flash-script -o gcroots/flash-script -L
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "master"
+
+flake-build-emulate-script:
+  timeout: 1h
+  tags:
+    - nix
+  stage: flake-build-emulate-script
+  script:
+    # Keep GC roots
+    - mkdir -p gcroots
+    - nix build .#emulate -o gcroots/emulate-script -L
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "master"
 
