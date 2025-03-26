@@ -53,7 +53,7 @@ flake-build-emulate-script:
   script:
     # Keep GC roots
     - mkdir -p gcroots
-    - nix build .#emulate -o gcroots/emulate-script -L
+    - nix build .#emulate-script -o gcroots/emulate-script -L
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "master"
 
