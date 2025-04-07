@@ -59,6 +59,9 @@
 
           inherit (elf-binary.meta) name;
 
+          # Slightly faster build, but we mostly do this to test the feature flag
+          qemu-esp32c3 = pkgs.qemu-esp32c3.override { enableTests = false; };
+
           emulate-script = pkgs.writeShellApplication {
             name = "emulate-${name}";
             runtimeInputs = [
@@ -66,7 +69,7 @@
               pkgs.esptool
               pkgs.gnugrep
               pkgs.netcat
-              pkgs.qemu-esp32c3
+              qemu-esp32c3
             ];
             text = ''
               # Some sanity checks
