@@ -32,7 +32,7 @@ Finally, there are three package outputs:
 
 * `nix build .#elf-binary` builds only the ELF binary file.
 * `nix build .#emulate-script` (default package) builds a script to run the emulation test.
-* `nix build .#flash-script` builds a wrapper script to flash the binary to a physical device using `espflash`.
+* `nix build .#flash-script` builds a wrapper script to flash the binary to a physical device using [espflash](https://github.com/esp-rs/espflash).
 
 ## Physical test
 
