@@ -117,6 +117,17 @@
             '';
           };
 
+          emulate-app = {
+            type = "app";
+            program = "${lib.getExe emulate-script}";
+            meta.description = "Script to emulate '${name}' in QEMU";
+          };
+
+          flash-app = {
+            type = "app";
+            program = "${lib.getExe flash-script}";
+            meta.description = "Script to flash '${name}' to hardware";
+          };
         in
         {
           packages = {
@@ -151,20 +162,8 @@
           };
 
           apps = {
-            default = {
-              type = "app";
-              program = "${lib.getExe emulate-script}";
-            };
-
-            emulate = {
-              type = "app";
-              program = "${lib.getExe emulate-script}";
-            };
-
-            flash = {
-              type = "app";
-              program = "${lib.getExe flash-script}";
-            };
+            default = emulate-app;
+            inherit emulate-app flash-app;
           };
 
           formatter = pkgs.nixfmt-tree;
