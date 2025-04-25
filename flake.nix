@@ -48,8 +48,6 @@
       (
         system:
         let
-          inherit (nixpkgs) lib;
-
           pkgs = import nixpkgs {
             inherit system;
             overlays = [
