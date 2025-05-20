@@ -7,7 +7,7 @@ license = "MIT OR Apache-2.0"
 
 [dependencies]
 esp-hal         = { version = "0.23.1", features = ["esp32c3"] }
-esp-backtrace   = { version = "0.15.0", features = ["esp32c3", "panic-handler", "exception-handler", "println"] }
+esp-backtrace   = { version = "0.15.1", features = ["esp32c3", "panic-handler", "exception-handler", "println"] }
 esp-println     = { version = "0.13.1", features = ["esp32c3"] }
 
 [profile.release]
