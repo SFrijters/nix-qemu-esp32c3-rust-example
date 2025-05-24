@@ -141,7 +141,7 @@
             cp qemu-${name}.log "$out"
           '';
 
-          devShells.default = pkgs.mkShell {
+          devShells.default = pkgs.mkShellNoCC {
             name = "${name}-dev";
 
             packages = [
