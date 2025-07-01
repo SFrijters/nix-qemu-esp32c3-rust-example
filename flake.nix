@@ -73,7 +73,9 @@
           };
 
           # Pin espflash to 3.3.0 for now; when using the new 4.0.0 the emulation goes into a boot loop
-          # Complicated way to override this:
+          # See https://github.com/esp-rs/espflash/issues/919 ; only the new bootloaders are the issue, but
+          # reverting a binary patch is annoying.
+          # Complicated way to override this based on:
           # https://discourse.nixos.org/t/is-it-possible-to-override-cargosha256-in-buildrustpackage/4393/20
           espflash_3_3_0 = pkgs.espflash.override (
             let
