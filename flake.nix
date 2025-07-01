@@ -72,6 +72,38 @@
             cargo = toolchain;
           };
 
+          # Pin espflash to 3.3.0 for now; when using the new 4.0.0 the emulation goes into a boot loop
+          # Complicated way to override this:
+          # https://discourse.nixos.org/t/is-it-possible-to-override-cargosha256-in-buildrustpackage/4393/20
+          espflash_3_3_0 = pkgs.espflash.override
+            (
+              let
+                version = "3.3.0";
+                rp = pkgs.rustPlatform;
+              in
+                {
+                  rustPlatform = rp // {
+                    buildRustPackage = args: rp.buildRustPackage (
+                      args // rec {
+                        inherit version;
+
+                        src = pkgs.fetchFromGitHub {
+                          owner = "esp-rs";
+                          repo = "espflash";
+                          tag = "v${version}";
+                          hash = "sha256-8qFq+OyidW8Bwla6alk/9pXLe3zayHkz5LsqI3jwgY0=";
+                        };
+
+                        cargoHash = "sha256-WEPSXgHR7wA2zWbc8ogVxDRtXcmR20R14Qwo2VqPLrQ=";
+                        checkFlags = [
+                          "--skip cli::monitor::external_processors"
+                        ];
+                      });
+                  };
+                }
+            );
+
+
           elf-binary = pkgs.callPackage ./blinky { inherit rustPlatform; };
 
           inherit (elf-binary.meta) name;
@@ -82,7 +114,7 @@
           emulate-script = pkgs.writeShellApplication {
             name = "emulate-${name}";
             runtimeInputs = [
-              pkgs.espflash
+              espflash_3_3_0
               pkgs.esptool
               pkgs.gnugrep
               pkgs.netcat
@@ -111,7 +143,7 @@
 
           flash-script = pkgs.writeShellApplication {
             name = "flash-${name}";
-            runtimeInputs = [ pkgs.espflash ];
+            runtimeInputs = [ espflash_3_3_0 ];
             text = ''
               espflash flash --monitor ${elf-binary}/bin/${name}
             '';
@@ -145,7 +177,7 @@
             name = "${name}-dev";
 
             packages = [
-              pkgs.espflash
+              espflash_3_3_0
               pkgs.esptool
               pkgs.gnugrep
               pkgs.netcat
