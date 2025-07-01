@@ -16,9 +16,8 @@ use esp_backtrace as _;
 use esp_println::println;
 use esp_hal::{
     delay::Delay,
-    gpio::{Level, Output},
+    gpio::{Level, Output, OutputConfig},
     main,
-    time::ExtU64,
 };
 
 #[main]
@@ -28,7 +27,7 @@ fn main() -> ! {
     println!("Hello world!");
 
     // Set GPIO10 as an output, and set its state high initially.
-    let mut led = Output::new(peripherals.GPIO10, Level::High);
+    let mut led = Output::new(peripherals.GPIO10, Level::High, OutputConfig::default());
 
     let delay = Delay::new();
 
@@ -36,7 +35,6 @@ fn main() -> ! {
         led.toggle();
         delay.delay_millis(500);
         led.toggle();
-        // or using `fugit` duration
-        delay.delay(1u64.secs());
+        delay.delay_millis(500);
     }
 }
