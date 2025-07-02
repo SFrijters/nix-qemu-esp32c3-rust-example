@@ -72,42 +72,6 @@
             cargo = toolchain;
           };
 
-          # Pin espflash to 3.3.0 for now; when using the new 4.0.0 the emulation goes into a boot loop
-          # See https://github.com/esp-rs/espflash/issues/919 ; only the new bootloaders are the issue, but
-          # reverting a binary patch is annoying.
-          # Complicated way to override this based on:
-          # https://discourse.nixos.org/t/is-it-possible-to-override-cargosha256-in-buildrustpackage/4393/20
-          espflash_3_3_0 = pkgs.espflash.override (
-            let
-              version = "3.3.0";
-              rp = pkgs.rustPlatform;
-            in
-            {
-              rustPlatform = rp // {
-                buildRustPackage =
-                  args:
-                  rp.buildRustPackage (
-                    args
-                    // rec {
-                      inherit version;
-
-                      src = pkgs.fetchFromGitHub {
-                        owner = "esp-rs";
-                        repo = "espflash";
-                        tag = "v${version}";
-                        hash = "sha256-8qFq+OyidW8Bwla6alk/9pXLe3zayHkz5LsqI3jwgY0=";
-                      };
-
-                      cargoHash = "sha256-WEPSXgHR7wA2zWbc8ogVxDRtXcmR20R14Qwo2VqPLrQ=";
-                      checkFlags = [
-                        "--skip cli::monitor::external_processors"
-                      ];
-                    }
-                  );
-              };
-            }
-          );
-
           elf-binary = pkgs.callPackage ./blinky { inherit rustPlatform; };
 
           inherit (elf-binary.meta) name;
@@ -118,7 +82,7 @@
           emulate-script = pkgs.writeShellApplication {
             name = "emulate-${name}";
             runtimeInputs = [
-              espflash_3_3_0
+              pkgs.espflash
               pkgs.esptool
               pkgs.gnugrep
               pkgs.netcat
@@ -127,9 +91,11 @@
             text = ''
               # Some sanity checks
               file -b "${elf-binary}/bin/${name}" | grep "ELF 32-bit LSB executable.*UCB RISC-V.*soft-float ABI.*statically linked"
+              espflash --version
               # Create an image for qemu
               espflash save-image --chip esp32c3 --merge ${elf-binary}/bin/${name} ${name}.bin
               # Get stats
+              esptool.py version
               esptool.py image_info --version 2 ${name}.bin
               # Start qemu in the background, open a tcp port to interact with it
               qemu-system-riscv32 -nographic -monitor tcp:127.0.0.1:44444,server,nowait -icount 3 -machine esp32c3 -drive file=${name}.bin,if=mtd,format=raw -serial file:qemu-${name}.log &
@@ -147,7 +113,7 @@
 
           flash-script = pkgs.writeShellApplication {
             name = "flash-${name}";
-            runtimeInputs = [ espflash_3_3_0 ];
+            runtimeInputs = [ pkgs.espflash ];
             text = ''
               espflash flash --monitor ${elf-binary}/bin/${name}
             '';
@@ -181,7 +147,7 @@
             name = "${name}-dev";
 
             packages = [
-              espflash_3_3_0
+              pkgs.espflash
               pkgs.esptool
               pkgs.gnugrep
               pkgs.netcat
