@@ -103,7 +103,7 @@
               sleep=10s
               echo "Running qemu in the background for $sleep ..."
               # Start qemu in the background, open a tcp port to interact with it
-              qemu-system-riscv32 -nographic -monitor tcp:127.0.0.1:44444,server,nowait -icount 3 -machine esp32c3 -drive file=${name}.bin,if=mtd,format=raw -serial file:qemu-${name}.log &
+              qemu-system-riscv32 -nographic -monitor tcp:127.0.0.1:44444,server,nowait -icount shift=auto -machine esp32c3 -drive file=${name}.bin,if=mtd,format=raw -serial file:qemu-${name}.log &
               # Wait a bit
               sleep "$sleep"
               echo "Killing qemu and analyzing output"
