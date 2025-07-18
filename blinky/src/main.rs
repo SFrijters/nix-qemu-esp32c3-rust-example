@@ -20,12 +20,12 @@ use esp_hal::{
     main,
 };
 
+// Add app descriptor, needed for newer (v5.4+) IDF bootloaders provided by espflash
+// https://github.com/esp-rs/espflash/issues/870#issuecomment-2917074263
+esp_bootloader_esp_idf::esp_app_desc!();
+
 #[main]
 fn main() -> ! {
-    // Add app descriptor, needed for newer (v5.4+) IDF bootloaders provided by espflash
-    // https://github.com/esp-rs/espflash/issues/870#issuecomment-2917074263
-    esp_bootloader_esp_idf::esp_app_desc!();
-
     let peripherals = esp_hal::init(esp_hal::Config::default());
 
     println!("Hello world!");
