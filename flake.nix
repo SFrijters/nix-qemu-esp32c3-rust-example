@@ -77,23 +77,7 @@
           inherit (elf-binary.meta) name;
 
           qemu-esp32c3 =
-            (pkgs.qemu-esp32c3.overrideAttrs (
-              finalAttrs: prevAttrs: {
-                # This patch may be enough (it is the first commit after the tagged release), but we can also just use the latest and greatest
-                # patches = prevAttrs.patches or [ ] ++ [
-                #   (pkgs.fetchpatch2 {
-                #     url = "https://github.com/espressif/qemu/commit/ccdda32084e89108a536dab3a1e1ff83401b8a38.patch?full_index=1";
-                #     hash = "sha256-RoBiVOZfUsH2eOEU/c/m6LDGv0wXYf8Vh3xSGGS+WjI=";
-                #   })
-                # ];
-                src = pkgs.fetchFromGitHub {
-                  owner = "espressif";
-                  repo = "qemu";
-                  rev = "c46f68cfd36760d27ea8c5a581c4cdb3165ebd66";
-                  hash = "sha256-YcSXEJwxUCfZy5n4rte7R/fKk+OrOutfBf9m8+gXiTg=";
-                };
-              }
-            )).override
+            pkgs.qemu-esp32c3.override
               # Without the tests we have a slightly faster build, but we mostly do this to test the feature flag,
               # which is not exercised in the github:SFrijters/nix-qemu-espressif flake .
               { enableTests = false; };
