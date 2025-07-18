@@ -36,6 +36,7 @@ fn main() -> ! {
     let delay = Delay::new();
 
     loop {
+        println!("Hello loop!");
         led.toggle();
         delay.delay_millis(500);
     }

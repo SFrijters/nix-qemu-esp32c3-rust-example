@@ -97,10 +97,13 @@
               # Get stats
               esptool.py version
               esptool.py image_info --version 2 ${name}.bin
+              sleep=10s
+              echo "Running qemu in the background for $sleep ..."
               # Start qemu in the background, open a tcp port to interact with it
               qemu-system-riscv32 -nographic -monitor tcp:127.0.0.1:44444,server,nowait -icount 3 -machine esp32c3 -drive file=${name}.bin,if=mtd,format=raw -serial file:qemu-${name}.log &
               # Wait a bit
-              sleep 3s
+              sleep "$sleep"
+              echo "Killing qemu and analyzing output"
               # Kill qemu nicely by sending 'q' (quit) over tcp
               echo q | nc -N 127.0.0.1 44444
               cat qemu-${name}.log
@@ -108,6 +111,11 @@
               grep "ESP-ROM:esp32c3-api1-20210207" qemu-${name}.log
               # Did we get the expected output?
               grep "Hello world" qemu-${name}.log
+              n=$(grep -c "Hello loop" qemu-${name}.log)
+              if [ "$n" -lt 2 ]; then
+                echo "Only $n iteration(s) of the loop reported, expected many"
+                exit 1
+              fi
             '';
           };
 
