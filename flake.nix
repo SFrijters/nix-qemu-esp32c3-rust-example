@@ -162,7 +162,7 @@
               pkgs.esptool
               pkgs.gnugrep
               pkgs.netcat
-              pkgs.qemu-esp32c3
+              qemu-esp32c3
               toolchain
             ];
 
