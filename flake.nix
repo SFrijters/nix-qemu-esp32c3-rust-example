@@ -146,6 +146,7 @@
           packages = {
             inherit elf-binary flash-script emulate-script;
             default = emulate-script;
+            inherit qemu-esp32c3;
           };
 
           checks.default = pkgs.runCommand "qemu-check-${name}" { } ''
