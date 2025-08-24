@@ -98,8 +98,8 @@
               # Create an image for qemu
               espflash save-image --chip esp32c3 --merge ${elf-binary}/bin/${name} ${name}.bin
               # Get stats
-              esptool.py version
-              esptool.py image_info --version 2 ${name}.bin
+              esptool version
+              esptool image-info ${name}.bin
               sleep=10s
               echo "Running qemu in the background for $sleep ..."
               # Start qemu in the background, open a tcp port to interact with it
