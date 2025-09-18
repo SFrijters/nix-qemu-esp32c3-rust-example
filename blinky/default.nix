@@ -4,7 +4,7 @@
 }:
 
 rustPlatform.buildRustPackage {
-  inherit ((builtins.fromTOML (builtins.readFile ./Cargo.toml)).package) name;
+  inherit ((builtins.fromTOML (lib.readFile ./Cargo.toml)).package) name;
 
   src = lib.fileset.toSource {
     root = ./.;
