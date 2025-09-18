@@ -20,11 +20,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1758193653,
-        "narHash": "sha256-1ny/jplBtPgNfErktOLIMRtgbg/IPIlPrZ9QnVY1UpU=",
+        "lastModified": 1758195769,
+        "narHash": "sha256-A7VyZ44Vl0+kasUe9jgZxO31Luo523Xu8C9Vl7Say00=",
         "owner": "SFrijters",
         "repo": "nix-qemu-espressif",
-        "rev": "2bcf2796d297535a626b9ce4db5cf67709ccb7d8",
+        "rev": "93f1b907fd52dc76f8370ec87bccdca5664b38b8",
         "type": "github"
       },
       "original": {
