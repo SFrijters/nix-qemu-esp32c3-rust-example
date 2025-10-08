@@ -40,7 +40,12 @@ The code has been tested on a [Seeed Studio XIAO ESP32C3](https://wiki.seeedstud
 
 ## Known issues
 
-This example code works around [a linker issue in nixpkgs](https://github.com/NixOS/nixpkgs/issues/281527) in [blinky/.cargo/config.toml](blinky/.cargo/config.toml). Please refer to the linked issue for details and please suggest a better/permanent fix if you know of one! We also may need to keep an eye on https://github.com/NixOS/nixpkgs/pull/389204 .
+This example code works around [a linker issue in nixpkgs](https://github.com/NixOS/nixpkgs/issues/281527) in [blinky/.cargo/config.toml](blinky/.cargo/config.toml). Please refer to the linked issue for details and please suggest a better/permanent fix if you know of one! We also may need to keep an eye on [nixpkgs pull #389204](https://github.com/NixOS/nixpkgs/pull/389204).
+
+## License
+
+* The Nix code, its documentation and supporting files provided in this repository are subject to the MIT license ([LICENSE](LICENSE) or [http://opensource.org/licenses/MIT](http://opensource.org/licenses/MIT))
+* The [example Rust code](blinky/src/main.rs) is also subject to the MIT license, as per [the README at the time of removal from the upstream repository](https://github.com/esp-rs/esp-hal/tree/v0.21.1?tab=readme-ov-file#license).
 
 ## Further reading
 
