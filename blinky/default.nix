@@ -19,4 +19,6 @@ rustPlatform.buildRustPackage {
   cargoLock.lockFile = ./Cargo.lock;
 
   doCheck = false;
+
+  meta.license = lib.licenses.mit;
 }
