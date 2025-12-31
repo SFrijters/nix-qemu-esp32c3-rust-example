@@ -21,11 +21,14 @@ rustPlatform.buildRustPackage {
   # https://github.com/NixOS/nixpkgs/pull/464707
   # https://github.com/NixOS/nixpkgs/pull/464992
   # and possibly revert or adjust to the new status quo in nixpkgs.
-  RUSTFLAGS = (builtins.fromTOML (builtins.readFile ./.cargo/config.toml)).build.rustflags;
+  env.RUSTFLAGS = toString (builtins.fromTOML (builtins.readFile ./.cargo/config.toml))
+    .build.rustflags;
 
   cargoLock.lockFile = ./Cargo.lock;
 
   doCheck = false;
+
+  __structuredAttrs = true;
 
   meta.license = lib.licenses.mit;
 }
