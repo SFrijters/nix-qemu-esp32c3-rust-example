@@ -89,6 +89,7 @@
               pkgs.esptool
               pkgs.gnugrep
               pkgs.netcat
+              pkgs.file
               qemu-esp32c3
             ];
             text = ''
