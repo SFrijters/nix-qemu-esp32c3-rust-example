@@ -87,6 +87,7 @@
             runtimeInputs = [
               pkgs.espflash
               pkgs.esptool
+              pkgs.file
               pkgs.gnugrep
               pkgs.netcat
               qemu-esp32c3
@@ -161,6 +162,7 @@
             packages = [
               pkgs.espflash
               pkgs.esptool
+              pkgs.file
               pkgs.gnugrep
               pkgs.netcat
               qemu-esp32c3
