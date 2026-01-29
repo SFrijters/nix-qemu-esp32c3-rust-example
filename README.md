@@ -14,8 +14,8 @@ This command is also run in the GitHub action.
 
 This flake also provides the following apps:
 
-* `nix run .#emulate` (default app) to run the emulation test script directly.
-* `nix run .#flash` to flash the compiled code to a physical device.
+* `nix run .#emulate-app` (default app) to run the emulation test script directly.
+* `nix run .#flash-app` to flash the compiled code to a physical device.
 
 And a development shell via:
 
