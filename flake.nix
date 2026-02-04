@@ -179,7 +179,8 @@
 
           apps = {
             default = emulate-app;
-            inherit emulate-app flash-app;
+            emulate = emulate-app;
+            flash = flash-app;
           };
 
           formatter = pkgs.nixfmt-tree;
