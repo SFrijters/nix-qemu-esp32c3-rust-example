@@ -60,7 +60,7 @@
             crossSystem = {
               # https://github.com/NixOS/nixpkgs/issues/281527#issuecomment-2180971963
               inherit system;
-              rust.rustcTarget = "riscv32imc-unknown-none-elf";
+              rust.rustcTargetSpec = "riscv32imc-unknown-none-elf";
             };
           };
 
